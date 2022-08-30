@@ -48,10 +48,10 @@ def get_random_bit():
 	return str(random.randint(0, 1))
 
 
-def read_message():
+def read_message(filename = 'message.txt'):
 	# Helper function that will read and process message.txt which will provide a good testing message
 	message = ''
-	f = open('message.txt', 'r')
+	f = open(filename, 'r')
 	for line in f:
 		message += line.replace('\n', ' ').lower()
 	return message
