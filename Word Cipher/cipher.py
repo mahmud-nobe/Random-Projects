@@ -93,10 +93,10 @@ class Cipher:
 			decoded_message += new_character
 		return decoded_message
 
-	def read_csv(self):
+	def read_csv(self, file_name = 'letter_frequencies.csv'):
 		# Read the letter frequency csv and create a heuristic save in a class variable
 		rating_dict = {}
-		with open('letter_frequencies.csv', 'r') as file:
+		with open(file_name, 'r') as file:
 			values = csv.reader(file)
 			next(values)
 			for row in values:
@@ -160,9 +160,9 @@ class Cipher:
 		decoded_message = binary_to_string(decoded_cipher_text)
 		return decoded_message
 
-	def read_wordlist(self):
+	def read_wordlist(self, file_name = "wordlist.txt"):
 		# Extra Credit: Read all words in wordlist and store in list. Remember to strip the endline characters
-		words = open("wordlist.txt", 'r').readlines()
+		words = open(file_name, 'r').readlines()
 		self.wordlist = [line.strip() for line in words]
 
 	def crack_vigenere(self, cipher_text):
