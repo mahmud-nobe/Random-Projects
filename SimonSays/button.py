@@ -4,15 +4,20 @@ import pygame
 pygame.init()
 
 class Button(pygame.sprite.Sprite):
-    def __init__(self): # Add given properties as parameters
+    def __init__(self, color_on, color_off, sound, x,y): # Add given properties as parameters
         pygame.sprite.Sprite.__init__(self)
         # Initialize properties here
+        self.color_on = color_on
+        self.color_off = color_off
+        self.sound = sound
+        self.x = x
+        self.y = y
 
         self.image = pygame.Surface((230, 230))
         self.image.fill(self.color_off)
         self.rect = self.image.get_rect()
         # Assign x, y coordinates to the top left of the sprite
-        self.rect.topleft = ()
+        self.rect.topleft = (x, y)
         self.clicked = False
     
     '''
@@ -20,7 +25,8 @@ class Button(pygame.sprite.Sprite):
     '''
     def draw(self, screen):
         # blit image here
-        return None
+        screen.blit(self.image, (self.rect.x, self.rect.y))
+        #return None
     
     
     def selected(self, mouse_pos):
@@ -28,7 +34,7 @@ class Button(pygame.sprite.Sprite):
         Used to check if given button is clicked/selected by player
         '''
         # Check if button was selected. Pass in mouse_pos.
-        return None
+        return self.rect.collidepoint(mouse_pos)
         
 
     '''
@@ -38,10 +44,12 @@ class Button(pygame.sprite.Sprite):
 
     def update(self, screen):
         # Illuminate button by filling color here
-        
+        self.image.fill(self.color_on)
         # blit the image here so it is visible to the player
-        
+        screen.blit(self.image, (self.rect.x, self.rect.y))        
         # Play sound
+        # pygame.mixer.Sound
+        pygame.mixer.Sound.play(self.sound)
 
         pygame.display.update()
         self.image.fill(self.color_off)
