@@ -24,15 +24,15 @@ YELLOW_OFF = (227, 227, 0)
 
 # Pass in respective sounds for each color
 GREEN_SOUND = pygame.mixer.Sound("bell1.mp3") # bell1
-RED_SOUND = pygame.mixer.Sound() # bell2
-BLUE_SOUND = pygame.mixer.Sound() # bell3
-YELLOW_SOUND = pygame.mixer.Sound() # bell4
+RED_SOUND = pygame.mixer.Sound("bell2.mp3") # bell2
+BLUE_SOUND = pygame.mixer.Sound("bell3.mp3") # bell3
+YELLOW_SOUND = pygame.mixer.Sound("bell4.mp3") # bell4
 
 # Button Sprite Objects
 green = Button(GREEN_ON, GREEN_OFF, GREEN_SOUND, 10, 10)
-red = Button(RED_ON, RED_OFF, RED_SOUND, 10, 10)
-blue = Button(BLUE_ON, BLUE_OFF, BLUE_SOUND, 10, 10)
-yellow = Button(YELLOW_ON, YELLOW_OFF, YELLOW_SOUND, 10, 10)
+red = Button(RED_ON, RED_OFF, RED_SOUND, 260, 10)
+blue = Button(BLUE_ON, BLUE_OFF, BLUE_SOUND, 260, 260)
+yellow = Button(YELLOW_ON, YELLOW_OFF, YELLOW_SOUND, 10, 260)
 
 # Variables
 colors = ["green", "red", "blue", "yellow"]
@@ -42,26 +42,35 @@ choice = ""
 '''
 Draws game board
 '''
-
 def draw_board():
     # Call the draw method on all four button objects
+    green.draw(SCREEN)
+    red.draw(SCREEN)
+    blue.draw(SCREEN)
+    yellow.draw(SCREEN)
 
-    '''
-    Chooses a random color and appends to cpu_sequence.
-    Illuminates randomly chosen color.
-    '''
 
+'''
+Chooses a random color and appends to cpu_sequence.
+Illuminates randomly chosen color.
+'''
 def cpu_turn():
     choice = random.choice(colors) # pick random color
     cpu_sequence.append(choice) # update cpu sequence
     if choice == "green":
         green.update(SCREEN)
     # Check other three color options
+    elif choice == "red":
+        red.update(SCREEN)
+    elif choice == "blue":
+        blue.update(SCREEN)
+    elif choice == "yellow":
+        yellow.update(SCREEN)
+
 
 '''
 Plays pattern sequence that is being tracked by cpu_sequence
 '''
-
 def repeat_cpu_sequence():
     if(len(cpu_sequence) != 0):
         for color in cpu_sequence:
@@ -93,13 +102,28 @@ def player_turn():
             if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
             # button click occured
                 # Grab the current position of mouse here
-                pos = None
+                pos = pygame.mouse.get_pos()
                 if green.selected(pos): # green button was selected
                     green.update(SCREEN) # illuminate button
                     players_sequence.append("green") # add to player sequence
                     check_sequence(players_sequence) # check if player choice was correct
                     turn_time = time.time() # reset timer
                 # Check other three options
+                elif red.selected(pos): # green button was selected
+                    red.update(SCREEN) # illuminate button
+                    players_sequence.append("red") # add to player sequence
+                    check_sequence(players_sequence) # check if player choice was correct
+                    turn_time = time.time() # reset timer
+                elif blue.selected(pos): # green button was selected
+                    blue.update(SCREEN) # illuminate button
+                    players_sequence.append("blue") # add to player sequence
+                    check_sequence(players_sequence) # check if player choice was correct
+                    turn_time = time.time() # reset timer
+                elif yellow.selected(pos): # green button was selected
+                    yellow.update(SCREEN) # illuminate button
+                    players_sequence.append("yellow") # add to player sequence
+                    check_sequence(players_sequence) # check if player choice was correct
+                    turn_time = time.time() # reset timer
 
     # If player does not select a button within 3 seconds then the game closes
     if not time.time() <= turn_time + 3:
